@@ -12,9 +12,9 @@ Built using **HTML, CSS and Vanilla JavaScript**, the application helps students
 
 ---
 
-# ✨ Features
+# Features
 
-## ⏱️ Pomodoro Timer
+## Pomodoro Timer
 
 - Configurable focus duration
 - Configurable short break duration
@@ -29,7 +29,7 @@ Built using **HTML, CSS and Vanilla JavaScript**, the application helps students
 
 ---
 
-## 📚 Hierarchical Study Planner
+## Hierarchical Study Planner
 
 Convert an entire syllabus into a structured todo list.
 
@@ -63,7 +63,7 @@ Features include:
 
 ---
 
-## 📈 Analytics Dashboard
+## Analytics Dashboard
 
 Track your productivity using built-in analytics.
 
@@ -79,7 +79,7 @@ Includes:
 
 ---
 
-## 💾 Local Storage
+## Local Storage
 
 Everything is automatically saved inside your browser.
 
@@ -95,7 +95,7 @@ No account or backend is required.
 
 ---
 
-## 📤 Export Support
+## Export Support
 
 Export your study data in multiple formats.
 
@@ -107,7 +107,7 @@ Supported formats:
 
 ---
 
-## 🎵 Media Integration
+## Media Integration
 
 Customize your study environment.
 
@@ -121,7 +121,7 @@ Features include:
 
 ---
 
-## 🤖 AI Quick Launcher
+## AI Quick Launcher
 
 Quick access to:
 
@@ -132,7 +132,7 @@ Useful for asking doubts or understanding concepts without leaving the study wor
 
 ---
 
-## ⚙️ Customization
+## Customization
 
 Customize the application according to your preferences.
 
@@ -151,7 +151,7 @@ Available settings include:
 
 ---
 
-## 📱 Responsive Design
+## Responsive Design
 
 Optimized for:
 
@@ -162,7 +162,7 @@ Optimized for:
 
 ---
 
-## 🖱️ Additional Features
+## Additional Features
 
 - Adjustable todo sidebar
 - Session tracking
@@ -174,7 +174,7 @@ Optimized for:
 
 ---
 
-# 🛠️ Built With
+# Built With
 
 - HTML5
 - CSS3
@@ -185,7 +185,7 @@ Optimized for:
 
 ---
 
-# 📂 Project Structure
+# Project Structure
 
 ```text
 Study-Companion
@@ -204,7 +204,7 @@ Study-Companion
 
 ---
 
-# 📸 Screenshots
+# Screenshots
 
 ## Home
 
@@ -269,7 +269,7 @@ No installation or package manager is required.
 
 ---
 
-# 💡 Future Improvements
+# Future Improvements
 
 - Dark mode
 - Drag-and-drop todo ordering
@@ -296,7 +296,7 @@ If you find a bug or have an idea for improvement, feel free to:
 
 ---
 
-# 📄 License
+# License
 
 This project is licensed under the MIT License.
 
