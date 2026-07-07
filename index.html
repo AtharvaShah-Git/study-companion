@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Companion</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- External Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+<body>
+    <!-- Top Bar: Clock and Settings Toggle -->
+    <div class="top-bar">
+        <div class="clock-container">
+            <div class="clock" id="clock">12:00 PM</div>
+            <button class="clock-toggle" id="clockToggle" title="Toggle 12/24 hour">24h</button>
+        </div>
+        <div class="top-bar-actions">
+            <button class="btn-icon" id="settingsBtn" title="Settings">Settings</button>
+            <button class="btn-icon" id="aiBtn" title="AI Assistant">AI</button>
+            <button class="btn-icon" id="analyticsBtn" title="Analytics">Report</button>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Left Sidebar: Settings Panel -->
+        <div class="sidebar sidebar-left" id="settingsPanel">
+            <div class="sidebar-header">
+                <h3>Settings</h3>
+                <button class="close-btn" id="closeSettings">✕</button>
+            </div>
+            <div class="settings-content">
+                <div class="setting-group">
+                    <label for="focusDuration">Focus Duration (min):</label>
+                    <input type="number" id="focusDuration" min="1" max="120" value="50">
+                </div>
+                <div class="setting-group">
+                    <label for="breakDuration">Break Duration (min):</label>
+                    <input type="number" id="breakDuration" min="1" max="60" value="10">
+                </div>
+                <div class="setting-group">
+                    <label for="sessionsBeforeLong">Sessions Before Long Break:</label>
+                    <input type="number" id="sessionsBeforeLong" min="1" max="10" value="4">
+                </div>
+                <div class="setting-group">
+                    <label for="longBreakDuration">Long Break Duration (min):</label>
+                    <input type="number" id="longBreakDuration" min="1" max="120" value="30">
+                </div>
+
+                <hr>
+                <h4>Sound Settings</h4>
+                <div class="setting-group">
+                    <label for="soundVolume">Bell Volume:</label>
+                    <input type="range" id="soundVolume" min="0" max="100" value="70">
+                </div>
+                <div class="setting-group">
+                    <label for="soundType">Bell Type:</label>
+                    <select id="soundType">
+                        <option value="bell1">Bell 1 (Classic)</option>
+                        <option value="bell2">Bell 2 (Gentle)</option>
+                        <option value="bell3">Bell 3 (Deep)</option>
+                    </select>
+                </div>
+                <div class="setting-group">
+                    <label for="customSound">Upload Custom Sound:</label>
+                    <input type="file" id="customSound" accept="audio/*">
+                    <small>Optional: Upload your own bell sound (MP3, WAV, OGG)</small>
+                </div>
+
+                <hr>
+                <h4>YouTube Integration</h4>
+                <div class="setting-group">
+                    <label for="focusMusic">Focus Music YouTube URL:</label>
+                    <input type="text" id="focusMusic" placeholder="https://www.youtube.com/watch?v=...">
+                    <button class="btn-secondary" id="playFocusMusic">🎵 Open</button>
+                </div>
+                <div class="setting-group">
+                    <label for="breakMusic">Break Music YouTube URL:</label>
+                    <input type="text" id="breakMusic" placeholder="https://www.youtube.com/watch?v=...">
+                </div>
+                <div class="setting-group">
+                    <input type="checkbox" id="autoPlayBreakMusic">
+                    <label for="autoPlayBreakMusic">Auto-play break music</label>
+                </div>
+
+                <hr>
+                <h4>Background Settings</h4>
+                <div class="setting-group">
+                    <input type="checkbox" id="backgroundVideoEnable">
+                    <label for="backgroundVideoEnable">Enable background video</label>
+                </div>
+                <div class="setting-group">
+                    <label for="backgroundVideoUrl">Background YouTube URL:</label>
+                    <input type="text" id="backgroundVideoUrl" placeholder="https://www.youtube.com/watch?v=...">
+                </div>
+                <div class="setting-group">
+                    <input type="checkbox" id="videoLock" checked>
+                    <label for="videoLock">Lock background (prevent mouse interaction)</label>
+                </div>
+
+                <hr>
+                <div class="setting-actions">
+                    <button class="btn-primary" id="saveSettings">Save Settings</button>
+                    <button class="btn-secondary" id="resetSettings">Reset to Default</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Timer Area -->
+        <div class="timer-container">
+            <!-- Background -->
+            <div class="background-layer" id="backgroundLayer"></div>
+
+            <!-- Split Screen Timer -->
+            <div class="timer-split">
+                <!-- Focus Side -->
+                <div class="timer-side focus-side">
+                    <div class="phase-label">FOCUS</div>
+                    <div class="timer-display" id="focusTimer">50:00</div>
+                    <div class="session-info" id="sessionInfo">Session 1</div>
+                </div>
+
+                <!-- Break Side -->
+                <div class="timer-side break-side">
+                    <div class="phase-label">BREAK</div>
+                    <div class="timer-display" id="breakTimer">10:00</div>
+                    <div class="session-info" id="breakInfo"></div>
+                </div>
+            </div>
+
+            <!-- Controls -->
+            <div class="timer-controls">
+                <button class="btn-control btn-start" id="startBtn">Start</button>
+                <button class="btn-control btn-pause" id="pauseBtn" disabled>Pause</button>
+                <button class="btn-control btn-stop" id="stopBtn" disabled>Stop</button>
+                <button class="btn-control btn-reset" id="resetBtn">Reset</button>
+            </div>
+        </div>
+
+        <div class="resizer" id="resizer"></div>
+
+        <!-- Right Sidebar: Todo List -->
+        <div class="sidebar sidebar-right" id="todoPanel">
+            <div class="sidebar-header">
+                <h3>Todo List</h3>
+                <div class="view-toggle">
+                    <button class="view-btn active" id="treeViewBtn" title="Tree View">🌳</button>
+                    <button class="view-btn" id="flatViewBtn" title="Flat View">📋</button>
+                </div>
+            </div>
+
+            <div class="todo-actions">
+                <textarea id="todoInput" placeholder="Paste or type your todo list here. Auto-detects hierarchy:&#10;UNIT-I&#10;1.1 Topic&#10;1.1.1 Subtopic" rows="6"></textarea>
+                <button class="btn-primary" id="parseTodoBtn">Parse Todo</button>
+                <button class="btn-secondary" id="selectUnitBtn">Select Unit</button>
+                <button class="btn-secondary" id="clearTodoBtn">Clear All</button>
+            </div>
+
+            <!-- Tree View -->
+            <div class="todo-view" id="treeView">
+                <div id="todoTree"></div>
+            </div>
+
+            <!-- Flat View -->
+            <div class="todo-view hidden" id="flatView">
+                <div id="todoList"></div>
+            </div>
+
+            <!-- Unit Selector -->
+            <div class="unit-selector hidden" id="unitSelector">
+                <h4>Select Unit for This Session</h4>
+                <select id="unitSelect">
+                    <option value="">None - General Study</option>
+                </select>
+                <button class="btn-primary" id="confirmUnitBtn">Confirm</button>
+            </div>
+            <button class="btn-secondary" id="deleteUnitBtn">Delete Selected Unit</button>
+            <div class="todo-stats">
+                <div class="stat-item">
+                    <span>Total:</span>
+                    <span id="totalTodos">0</span>
+                </div>
+                <div class="stat-item">
+                    <span>Completed:</span>
+                    <span id="completedTodos">0</span>
+                </div>
+                <div class="stat-item">
+                    <span>Progress:</span>
+                    <span id="todoProgress">0%</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Analytics Modal -->
+    <div class="modal hidden" id="analyticsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Analytics Dashboard</h2>
+                <button class="close-btn" id="closeAnalytics">✕</button>
+            </div>
+
+            <div class="analytics-content">
+                <!-- Overall Stats -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h4>Total Sessions</h4>
+                        <p class="stat-number" id="totalSessions">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h4>Total Focus Time</h4>
+                        <p class="stat-number" id="totalFocusTime">0h</p>
+                    </div>
+                    <div class="stat-card">
+                        <h4>Overall Completion</h4>
+                        <p class="stat-number" id="overallCompletion">0%</p>
+                    </div>
+                    <div class="stat-card">
+                        <h4>Today's Sessions</h4>
+                        <p class="stat-number" id="todaySessions">0</p>
+                    </div>
+                </div>
+
+                <!-- Pie Chart -->
+                <div class="chart-container">
+                    <h3>Session Completion Overview</h3>
+                    <canvas id="completionChart"></canvas>
+                </div>
+
+                <!-- Sessions Table -->
+                <div class="sessions-table-container">
+                    <h3>Session Details</h3>
+                    <div class="table-controls">
+                        <input type="text" id="unitFilter" placeholder="Filter by unit...">
+                        <select id="sortBy">
+                            <option value="date">Sort by Date</option>
+                            <option value="duration">Sort by Duration</option>
+                            <option value="completion">Sort by Completion %</option>
+                        </select>
+                    </div>
+                    <div class="table-wrapper">
+                        <table id="sessionsTable">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Date</th>
+                                    <th>Unit</th>
+                                    <th>Duration</th>
+                                    <th>Completion %</th>
+                                    <th>Topics Covered</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="sessionsTableBody">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Export Section -->
+                <div class="export-section">
+                    <h3>Export Data</h3>
+                    <button class="btn-export" id="exportJSON">JSON</button>
+                    <button class="btn-export" id="exportCSV">CSV</button>
+                    <button class="btn-export" id="exportPDF">PDF</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- AI Chat Popup -->
+    <div class="ai-popup hidden" id="aiPopup">
+        <div class="popup-content">
+            <div class="popup-header">
+                <h3>AI Assistant</h3>
+                <button class="close-btn" id="closeAI">✕</button>
+            </div>
+            <div class="ai-buttons">
+                <button class="btn-ai" id="openGemini">Gemini AI</button>
+                <button class="btn-ai" id="openChatGPT">ChatGPT</button>
+            </div>
+            <p class="ai-note">Opens in new window. Come back here when done.</p>
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div class="notification hidden" id="notification">
+        <span id="notificationText"></span>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
