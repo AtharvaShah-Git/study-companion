@@ -6,9 +6,9 @@ Built using **HTML, CSS and Vanilla JavaScript**, the application helps students
 
 ---
 
-## 🚀 Live Demo
+## Live Demo
 
-🌐 **https://study-companion-byatharvashah.netlify.app/**
+**https://study-companion-byatharvashah.netlify.app/**
 
 ---
 
@@ -249,7 +249,7 @@ Study-Companion
 
 ---
 
-# 🚀 Getting Started
+# Getting Started
 
 Clone the repository.
 
@@ -284,7 +284,7 @@ No installation or package manager is required.
 
 ---
 
-# 🤝 Contributing
+# Contributing
 
 Contributions are welcome.
 
@@ -304,7 +304,7 @@ See the **LICENSE** file for more information.
 
 ---
 
-# 👨‍💻 Author
+# Author
 
 **Atharva Shah**
 
